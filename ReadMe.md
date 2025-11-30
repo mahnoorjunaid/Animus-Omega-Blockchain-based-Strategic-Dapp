@@ -2,6 +2,7 @@
 
 ### A Decentralized Fleet Management & Gambling Simulation
 **Theme:** Assassin's Creed IV: Black Flag
+**A Strategic Blockchain DAPP by Taha Haider, Noor e Zahra and Mahnoor Junaid**
 
 ---
 
@@ -68,4 +69,5 @@ The system utilizes a modular smart contract architecture for security and scala
 *   **Assets:** Ubisoft (Visuals), Brian Tyler (Audio).
 
 *   **Tech Stack:** Solidity, Hardhat/Remix, Ethers.js, HTML5.
+
 
