@@ -1,0 +1,214 @@
+/* =========================================
+   1. GENERAL SETUP & FONTS
+   ========================================= */
+body, html {
+    margin: 0; padding: 0;
+    width: 100%; height: 100%;
+    overflow: hidden;
+    font-family: 'Cinzel', serif;
+    color: #e0f7fa;
+}
+
+/* BACKGROUND VIDEO */
+#bg-video {
+    position: fixed; right: 0; bottom: 0;
+    min-width: 100%; min-height: 100%;
+    z-index: -1; filter: brightness(0.6);
+}
+
+/* =========================================
+   2. START SCREEN (OVERLAY)
+   ========================================= */
+#overlay {
+    position: fixed; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    display: flex; justify-content: center; align-items: center;
+    z-index: 100; transition: opacity 1s ease;
+}
+.overlay-content { text-align: center; }
+.logo-large { width: 150px; margin-bottom: 20px; filter: drop-shadow(0 0 10px #D4AF37); }
+h1 { font-size: 3rem; color: #D4AF37; text-shadow: 0 0 10px #D4AF37; margin: 0; }
+.blink { font-family: 'Courier Prime', monospace; animation: blinker 1.5s linear infinite; color: #00ffff; }
+@keyframes blinker { 50% { opacity: 0; } }
+
+#btn-enter {
+    background: transparent; border: 2px solid #D4AF37; color: #D4AF37;
+    padding: 15px 40px; font-size: 1.2rem; font-family: 'Cinzel', serif;
+    margin-top: 30px; cursor: pointer; transition: 0.3s;
+}
+#btn-enter:hover { background: #D4AF37; color: #000; box-shadow: 0 0 20px #D4AF37; }
+
+/* =========================================
+   3. MAIN INTERFACE (NAV & PANELS)
+   ========================================= */
+.hidden { display: none !important; }
+
+nav {
+    display: flex; justify-content: space-between; padding: 20px;
+    background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(5px);
+    border-bottom: 1px solid #00ffff;
+}
+.nav-logo { width: 40px; vertical-align: middle; }
+#btn-connect {
+    background: #00ffff; border: none; padding: 8px 20px;
+    font-weight: bold; cursor: pointer;
+    clip-path: polygon(10% 0, 100% 0, 100% 70%, 90% 100%, 0 100%, 0 30%);
+}
+#balance-display { margin-right: 20px; font-family: 'Courier Prime', monospace; color: #D4AF37; font-weight: bold; }
+
+.container { display: flex; height: 70vh; padding: 20px; gap: 20px; }
+.panel {
+    background: rgba(2, 16, 25, 0.7); border: 1px solid rgba(0, 255, 255, 0.3);
+    padding: 20px; border-radius: 5px; backdrop-filter: blur(10px);
+}
+.mint-panel { width: 30%; display: flex; flex-direction: column; gap: 15px; }
+.crew-panel { width: 70%; }
+
+/* INPUTS & BUTTONS */
+input { background: rgba(0, 0, 0, 0.5); border: 1px solid #D4AF37; color: white; padding: 10px; font-family: 'Courier Prime', monospace; }
+.action-btn { background: linear-gradient(45deg, #D4AF37, #b8860b); border: none; padding: 12px; font-weight: bold; cursor: pointer; }
+.action-btn:hover { filter: brightness(1.2); }
+
+/* =========================================
+   4. MAP VIEW
+   ========================================= */
+#world-map { width: 100%; height: 100%; position: absolute; top:0; left:0; background: #000; }
+.map-image { width: 100%; height: 100%; object-fit: cover; opacity: 0.8; }
+
+.map-pin {
+    position: absolute; width: 20px; height: 20px; background: red;
+    border-radius: 50%; border: 2px solid white; cursor: pointer;
+    box-shadow: 0 0 15px red; animation: pulse 1.5s infinite;
+}
+.pin-label {
+    position: absolute; top: -25px; left: -20px; background: black;
+    color: white; padding: 2px 5px; font-size: 0.8rem;
+    white-space: nowrap; border: 1px solid red; display: none;
+}
+.map-pin:hover .pin-label { display: block; }
+@keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.3); } 100% { transform: scale(1); } }
+
+/* =========================================
+   5. CARDS & SPRITES (CENTERED & FIXED)
+   ========================================= */
+#crew-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 15px; }
+
+/* THE CARD CONTAINER */
+.pirate-card {
+    background: rgba(0, 0, 0, 0.8); 
+    border: 1px solid #D4AF37;
+    padding: 15px;
+    
+    /* FLEXBOX CENTERING (The Nuclear Option) */
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Forces horizontal center */
+    justify-content: flex-start;
+    text-align: center;
+    
+    transition: transform 0.2s;
+    position: relative;
+}
+.pirate-card:hover { transform: scale(1.02); box-shadow: 0 0 15px rgba(212, 175, 55, 0.3); }
+
+/* BASE SPRITE ANIMATION */
+.pirate-sprite {
+    width: 100px; 
+    height: 100px;
+    margin-bottom: 10px;
+    background-size: cover;
+    background-position: top center; /* Head anchored to top */
+    background-repeat: no-repeat;
+    animation: assassinIdle 0.8s steps(1) infinite; 
+}
+
+/* CARD SPECIFIC SPRITE (Has Circle & Border) */
+.pirate-card .pirate-sprite {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border: 3px solid; /* Color injected by JS */
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.8);
+    margin-top: 5px; 
+}
+
+@keyframes assassinIdle {
+    0% { background-image: url('p1.png'); } 17% { background-image: url('p2.png'); }
+    34% { background-image: url('p3.png'); } 51% { background-image: url('p4.png'); }
+    68% { background-image: url('p5.png'); } 85% { background-image: url('p6.png'); }
+    100% { background-image: url('p1.png'); }
+}
+
+.pirate-rank { color: #00ffff; font-size: 0.8rem; margin-bottom: 5px; }
+.pirate-stats { font-family: 'Courier Prime', monospace; font-size: 0.9rem; color: #aaa; margin: 10px 0; text-align: left; width: 100%; display: flex; justify-content: center; gap: 5px;}
+
+.card-actions { width: 100%; }
+.card-actions button {
+    width: 100%; margin-top: 5px; background: transparent;
+    border: 1px solid #00ffff; color: #00ffff; cursor: pointer; font-size: 0.7rem; padding: 5px;
+}
+.card-actions button:hover { background: #00ffff; color: black; }
+.back-btn { background: transparent; border: 1px solid #D4AF37; color: #D4AF37; margin-bottom: 10px; cursor: pointer; padding: 5px 10px; }
+
+/* =========================================
+   6. BATTLE ARENA (FIXED VISUALS)
+   ========================================= */
+#battle-overlay {
+    position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+    background: rgba(0, 0, 0, 0.95); z-index: 999;
+    display: flex; flex-direction: column; justify-content: center; align-items: center;
+}
+.battle-stage { display: flex; justify-content: space-between; align-items: center; width: 60%; margin-bottom: 50px; }
+
+/* YOUR FIGHTER (Override Card Styles - No Circle, Bigger) */
+#my-fighter .pirate-sprite {
+    width: 150px !important;
+    height: 150px !important;
+    border: none !important; /* REMOVES CIRCLE */
+    border-radius: 0 !important;
+    box-shadow: none !important;
+}
+
+/* ENEMY FIGHTER (Fixed Anchor Point) */
+.enemy-sprite {
+    width: 120px; 
+    height: 120px;
+    background-image: url('enemy.png');
+    background-repeat: no-repeat;
+    background-size: 400% 100%; /* Assumes 4 frames */
+    background-position: left bottom; /* FIX: Anchors feet to ground */
+    animation: enemyWalk 0.8s steps(3) infinite; 
+    transform: scaleX(-1);
+}
+@keyframes enemyWalk { 0% { background-position: 0 0; } 100% { background-position: 100% 0; } }
+
+/* =========================================
+   7. FX & ANIMATIONS
+   ========================================= */
+/* HIT EFFECT (Red Flash, not White) */
+.hit { 
+    filter: sepia(1) hue-rotate(-50deg) saturate(3); 
+    transform: scaleX(-1) translateX(5px); /* Adds a little shake to enemy */
+} 
+
+.dead { transform: rotate(90deg) translateY(100px) scaleX(-1); opacity: 0; transition: 1s; }
+
+.fighter { transition: transform 0.2s; }
+.fighter.left { animation: lungeRight 1s infinite alternate; }
+.fighter.right { animation: lungeLeft 1s infinite alternate; }
+@keyframes lungeRight { from { transform: translateX(0); } to { transform: translateX(30px); } }
+@keyframes lungeLeft { from { transform: translateX(0); } to { transform: translateX(-30px); } }
+
+/* SHAKE & GOLD */
+.shake { animation: shake 0.5s; animation-iteration-count: 1; }
+@keyframes shake { 0% { transform: translate(1px, 1px) rotate(0deg); } 10% { transform: translate(-1px, -2px) rotate(-1deg); } 20% { transform: translate(-3px, 0px) rotate(1deg); } 30% { transform: translate(3px, 2px) rotate(0deg); } 40% { transform: translate(1px, -1px) rotate(1deg); } 50% { transform: translate(-1px, 2px) rotate(-1deg); } 60% { transform: translate(-3px, 1px) rotate(0deg); } 70% { transform: translate(3px, 1px) rotate(-1deg); } 80% { transform: translate(-1px, -1px) rotate(1deg); } 90% { transform: translate(1px, 2px) rotate(0deg); } 100% { transform: translate(1px, -2px) rotate(-1deg); } }
+.gold-coin { position: fixed; top: -50px; width: 30px; height: 30px; background-image: url('coin.png'); background-size: cover; z-index: 9999; animation: fall linear forwards; }
+@keyframes fall { to { transform: translateY(110vh) rotate(360deg); } }
+
+/* LOG */
+.console-log {
+    position: fixed; bottom: 0; width: 100%; height: 15vh;
+    background: black; border-top: 2px solid #D4AF37; color: #00ff00;
+    font-family: 'Courier Prime', monospace; padding: 10px; overflow-y: auto; font-size: 0.9rem;
+}
+.console-log p { margin: 2px 0; }

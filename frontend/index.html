@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animus: Jackdaw's Deck</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Courier+Prime&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/6.7.0/ethers.umd.min.js"></script>
+</head>
+<body>
+
+    <!-- ASSETS: Background Video & Audio -->
+    <video autoplay muted loop id="bg-video">
+        <source src="bg.mp4" type="video/mp4">
+    </video>
+
+    <audio id="intro-music" loop><source src="intro.mp3" type="audio/mpeg"></audio>
+    <audio id="game-music" loop><source src="game.mp3" type="audio/mpeg"></audio>
+    <!-- SFX -->
+    <audio id="sfx-sword" src="sword.mp3"></audio>
+    <audio id="sfx-coin" src="coin.mp3"></audio>
+
+    <!-- SECTION A: THE OVERLAY (Start Screen) -->
+    <div id="overlay">
+        <div class="overlay-content">
+            <img src="logo.png" alt="AC Logo" class="logo-large">
+            <h1>ANIMUS OMEGA</h1>
+            <p class="blink">SYSTEM STANDBY...</p>
+            <button id="btn-enter" onclick="enterAnimus()">INITIALIZE SEQUENCE</button>
+        </div>
+    </div>
+
+    <!-- SECTION B: THE MAIN INTERFACE -->
+    <div id="app" class="hidden">
+        
+        <!-- Navbar -->
+        <nav>
+            <div class="nav-left">
+                <img src="logo.png" alt="Logo" class="nav-logo">
+                <span>JACKDAW_PROTOCOL_V4</span>
+            </div>
+            <div class="nav-right">
+                <span id="balance-display">REALES: 0 RLS</span>
+                <button id="btn-connect" onclick="connectWallet()">CONNECT WALLET</button>
+            </div>
+        </nav>
+
+        <!-- Main Content Grid -->
+        <div class="container">
+            
+            <!-- Left Panel: Recruitment -->
+            <div class="panel mint-panel">
+                <h2>// NEW_RECRUIT</h2>
+                <input type="text" id="pirate-name" placeholder="ENTER PIRATE NAME">
+                <button class="action-btn" onclick="recruitPirate()">MINT CREW MEMBER</button>
+                <div class="animus-lines"></div>
+            </div>
+
+            <!-- Right Panel: THE MAP & CREW CENTER -->
+            <div class="panel crew-panel" style="position: relative; overflow: hidden; padding: 0;">
+                
+                <!-- VIEW 1: THE MAP (Default Visible) -->
+                <div id="world-map">
+                    <img src="map_bg.jpg" class="map-image">
+                    
+                    <!-- Pins -->
+                    <div class="map-pin" style="top: 40%; left: 30%;" onclick="openMission('Nassau')">
+                        <span class="pin-label">NASSAU (Easy)</span>
+                    </div>
+                    <div class="map-pin" style="top: 60%; left: 60%;" onclick="openMission('Kingston')">
+                        <span class="pin-label">KINGSTON (Hard)</span>
+                    </div>
+                    <div class="map-pin" style="top: 30%; left: 70%;" onclick="openMission('Havana')">
+                        <span class="pin-label">HAVANA (Deadly)</span>
+                    </div>
+                </div>
+
+                <!-- VIEW 2: CREW SELECTION (Hidden by default) -->
+                <!-- Right Panel: THE COMMAND CENTER -->
+            <div class="panel crew-panel" style="position: relative; overflow: hidden; padding: 0;">
+                
+                <!-- VIEW 1: CREW SELECTION (DEFAULT VISIBLE) -->
+                <div id="crew-selection" style="padding: 20px; height: 100%; overflow-y: auto;">
+                    <h3 style="text-align:center; color:gold;">ACTIVE ROSTER</h3>
+                    <div id="crew-grid">
+                        <!-- Cards appear here -->
+                    </div>
+                </div>
+
+                <!-- VIEW 2: THE MAP (HIDDEN INITIALLY) -->
+                <div id="world-map" class="hidden">
+                    <img src="map_bg.jpg" class="map-image">
+                    
+                    <!-- Back Button overlaid on map -->
+                    <button class="back-btn" onclick="showRoster()" style="position: absolute; top: 10px; left: 10px; z-index: 10;">
+                        ← CANCEL
+                    </button>
+
+                    <!-- Pins -->
+                    <div class="map-pin" style="top: 40%; left: 30%;" onclick="openMission('Nassau')">
+                        <span class="pin-label">NASSAU (Easy)</span>
+                    </div>
+                    <div class="map-pin" style="top: 60%; left: 60%;" onclick="openMission('Kingston')">
+                        <span class="pin-label">KINGSTON (Hard)</span>
+                    </div>
+                    <div class="map-pin" style="top: 30%; left: 70%;" onclick="openMission('Havana')">
+                        <span class="pin-label">HAVANA (Deadly)</span>
+                    </div>
+                </div>
+
+            </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Bottom Panel: The Log -->
+        <div class="console-log" id="game-log">
+            <p>> SYSTEM READY.</p>
+        </div>
+
+    </div>
+
+    <!-- VIEW 3: BATTLE OVERLAY (Full Screen Popup) -->
+    <div id="battle-overlay" class="hidden">
+        <div class="battle-stage">
+            <!-- Your Fighter -->
+            <div id="my-fighter" class="fighter left"></div>
+            
+            <!-- Enemy Fighter -->
+            <div class="fighter right">
+                <div class="enemy-sprite" id="enemy-target"></div>
+            </div>
+        </div>
+        <h2 id="battle-status" class="blink">ENGAGING ENEMY...</h2>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
